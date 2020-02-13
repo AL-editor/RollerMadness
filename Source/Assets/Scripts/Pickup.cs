@@ -12,7 +12,7 @@ public class Pickup : MonoBehaviour
     public Text countText;
     public Text treasureText;
     public Text winText;
-    private int treasures = 0;
+    [SerializeField]internal int treasures = 0;
     private Rigidbody rb;
     private int count;
 
@@ -24,11 +24,11 @@ public class Pickup : MonoBehaviour
             {
                 Treasure coin = other.gameObject.GetComponent<Treasure>();
                 treasures += coin.value;
+                coin.Explode();
                 SetTreasureText();
             }
             count = count + 1;
             SetCountText();
-            other.gameObject.SetActive(false);
 
         }
     }

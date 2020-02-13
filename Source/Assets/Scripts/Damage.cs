@@ -20,14 +20,31 @@ public class Damage : MonoBehaviour
         if (other.gameObject.GetComponent<Health>())
         {
             Health playerHealth = other.gameObject.GetComponent<Health>();
-            playerHealth.healthPoints -= damageAmount;
-            if (playerHealth.healthPoints <= 0 && playerHealth.OnLivesGone == Health.LiveGoneSitutations.LoadLevelWhenDead)
+            playerHealth.health -= damageAmount;
+            if (playerHealth.health <= 0 && playerHealth.OnLivesGone == Health.LiveGoneSitutations.LoadLevelWhenDead)
                 ResetGame();
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<Health>())
+        {
+            Health playerHealth = collision.gameObject.GetComponent<Health>();
+            playerHealth.health -= damageAmount;
+            if (playerHealth.health <= 0 )
+                ResetGame();
 
+            Explode();
+        }
+    }
+
+    public void Explode()
+    {
+        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        gameObject.SetActive(false);
+    }
     private void ResetGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        GameManager.instance.OnPlayerDeath();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,4 +16,11 @@ public class Treasure : MonoBehaviour
         }
     }
 
+    internal void Explode()
+    {
+        Debug.Log(1);
+        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        gameObject.SetActive(false);
+
+    }
 }
